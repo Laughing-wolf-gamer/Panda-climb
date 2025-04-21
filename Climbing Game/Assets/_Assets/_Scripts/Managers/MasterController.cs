@@ -1,4 +1,3 @@
-using Cinemachine;
 using UnityEngine;
 using GamerWolf.Utils;
 using System.Collections;
@@ -7,8 +6,9 @@ using Baracuda.Monitoring;
 using Baracuda.Monitoring.API;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
 public class MasterController : MonoBehaviour {
-    [SerializeField] private CinemachineVirtualCamera followCamera;
+    [SerializeField] private CinemachineCamera followCamera;
     [SerializeField] private Transform moveBody;
     [SerializeField] private GameDataSO gameData;
     [SerializeField] private UnityEvent OnGameStart;
@@ -99,7 +99,7 @@ public class MasterController : MonoBehaviour {
         gameData.SetNewLongestDistance(longestDistance);
         gameData.IncreaseCash(collectedCoins);
         uIManager.SetLongestDistance();
-        followCamera.m_Follow = null;
+        followCamera.Follow = null;
         OnGameEnd?.Invoke();
         yield return new WaitForSeconds(1f);
         OnAfterEndDealy?.Invoke();

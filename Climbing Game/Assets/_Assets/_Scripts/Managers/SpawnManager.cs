@@ -1,5 +1,5 @@
 using System;
-using Cinemachine;
+using Unity.Cinemachine;
 using UnityEngine;
 using GamerWolf.Utils;
 using System.Collections;
@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class SpawnManager : MonoBehaviour {
     [Header("Spawning Logs")]
     [SerializeField] private Transform variationsParent;
-    [SerializeField] private CinemachineVirtualCamera followCam;
+    [SerializeField] private CinemachineCamera followCam;
     [SerializeField] private string[] poolName;
     [SerializeField] private Transform intialSpawnPoint;
     [SerializeField] private int maxLogDestoryToSpawn = 1;
