@@ -34,11 +34,11 @@
                 },
                 {
                     "name": "MousePos",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "64c1afd9-e424-4a05-8def-882116ae8fa2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -90,7 +90,7 @@
                 {
                     "name": "",
                     "id": "660914cb-c4a2-4e16-a2ea-d11e50edfaf4",
-                    "path": "",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

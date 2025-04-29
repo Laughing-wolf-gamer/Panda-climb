@@ -48,7 +48,16 @@ namespace GamerWolf.Utils{
                 SwipeDirection(swipeStartPosition,swipeEndPosition);
             }
         }
-        private void SwipeDirection(Vector3 first,Vector3 end){
+		private void Update() {
+			if(inputEnable){
+				if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)){
+					OnSwipe?.Invoke(-1f,0);
+				}else if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)){
+					OnSwipe?.Invoke(1f,0);
+				}
+			}
+		}
+		private void SwipeDirection(Vector3 first,Vector3 end){
             if(Mathf.Abs(end.x - first.x) > direcitonMoveThreshold || Mathf.Abs(end.y - first.y) > direcitonMoveThreshold){
                 if(Mathf.Abs(end.x - first.x) > Mathf.Abs(end.y - first.y)){
                     if(end.x > first.x){
