@@ -20,9 +20,8 @@ public class SpawnManager : MonoBehaviour {
     private LevelVariations currentVariations;
     private ObjectPoolingManager poolingManager;
     private int nextLogSpawnAmount;
-    private bool canSpawn;
     private float currentEnemySpawnTime;
-    public Action onLogDistroy;
+    public Action onMaxLogsDestroyed;
     public static SpawnManager current;
     private void Awake(){
         currentEnemySpawnTime = spawnTimes;
@@ -31,13 +30,13 @@ public class SpawnManager : MonoBehaviour {
     }
 
     private void Start(){
+        onMaxLogsDestroyed += SpawnOtherLogs;
         Init();
-        onLogDistroy += ()=>{
-            nextLogSpawnAmount = 0;
-            SpawnOtherLogs();
-        };
     }
-    public void Init(){
+	private void OnDestroy() {
+		onMaxLogsDestroyed -= SpawnOtherLogs;
+	}
+	public void Init(){
         int rand = Random.Range(0,poolName.Length);
         GameObject variations = poolingManager.SpawnFromPool(poolName[rand],intialSpawnPoint.position,intialSpawnPoint.rotation,variationsParent);
         if(variations.TryGetComponent<LevelVariations>(out LevelVariations newVaritaionsRight)){
@@ -51,6 +50,7 @@ public class SpawnManager : MonoBehaviour {
         StartCoroutine(SpawnEnemy());
     }
     public void SpawnOtherLogs(){
+		nextLogSpawnAmount = 0;
         int rand = Random.Range(0,poolName.Length);
         GameObject variations = poolingManager.SpawnFromPool(poolName[rand],currentVariations.GetNextObstacleSpawnPoint().position,currentVariations.GetNextObstacleSpawnPoint().rotation,variationsParent);
         
@@ -80,7 +80,7 @@ public class SpawnManager : MonoBehaviour {
     public void InvokeSpawnNewSection(){
         nextLogSpawnAmount++;
         if(nextLogSpawnAmount >= maxLogDestoryToSpawn){
-            onLogDistroy?.Invoke();
+            onMaxLogsDestroyed?.Invoke();
         }
     }
     
