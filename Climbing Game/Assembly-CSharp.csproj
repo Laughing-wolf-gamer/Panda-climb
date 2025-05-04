@@ -77,8 +77,8 @@
     <Compile Include="Assets\Input Assets\Player Touch.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXMouseOrbit.cs" />
     <Compile Include="Assets\_Assets\_Scripts\Player\Input System\SwipeDetection.cs" />
-    <Compile Include="Assets\Epic Toon FX\Scripts\ETFXLightFade.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\ParticleEffectsShowcase\Scripts\PEDestoryTimed.cs" />
+    <Compile Include="Assets\Epic Toon FX\Scripts\ETFXLightFade.cs" />
     <Compile Include="Assets\_Assets\_Scripts\Player\PlayerAnimationHandler.cs" />
     <Compile Include="Assets\_Assets\_Scripts\Others\ObjectMover.cs" />
     <Compile Include="Assets\_Assets\_Scripts\Managers\SpawnManager.cs" />
