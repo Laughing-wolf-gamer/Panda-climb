@@ -1,9 +1,5 @@
 using UnityEngine;
 using GamerWolf.Utils;
-using System.Collections;
-using Baracuda.Monitoring;
-using Baracuda.Monitoring.API;
-using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
     [SerializeField] private CurveSetUp curveSetUp;

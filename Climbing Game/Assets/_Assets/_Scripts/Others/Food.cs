@@ -4,14 +4,16 @@ using System.Collections.Generic;
 
 public class Food : Interactable{
 
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float speedMultiplier = 1f;
     private MasterController masterController;
     private void Start(){
         masterController = MasterController.current;
     }
     private void Update(){
-        if(masterController.isGamePlaying){
-            transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        if (masterController != null && masterController.isGamePlaying)
+        {
+            float speed = masterController.WorldSpeed * speedMultiplier;
+            transform.position += transform.forward * speed * Time.deltaTime;
         }
     }
     public override void Interact(PlayerCollision player){

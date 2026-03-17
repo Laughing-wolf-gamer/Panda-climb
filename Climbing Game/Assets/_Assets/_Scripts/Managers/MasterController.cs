@@ -38,6 +38,7 @@ public class MasterController : MonoBehaviour {
         Time.timeScale = 1f;
         uIManager = UIManager.current;
         lastPosition = moveBody.transform.position;
+        worldSpeed = startWorldSpeed;
         StartCoroutine(SpeedReckoner());
         StartCoroutine(GameStartRoutine());
     }
@@ -45,9 +46,12 @@ public class MasterController : MonoBehaviour {
     private void Update(){
         if(isGamePlaying){
             float currentDistance = Vector3.Distance(lastPosition,moveBody.transform.position);
-            // currentSpeed = Vector3.Distance(lastPosition,player.transform.position) / 100f;
             longestDistance += currentDistance;
             lastPosition = moveBody.transform.position;
+
+            worldSpeed += Time.deltaTime / worldSpeedAcceleration;
+            worldSpeed = Mathf.Clamp(worldSpeed, startWorldSpeed, maxWorldSpeed);
+
             uIManager.SetcurrentDistance(longestDistance);
             if(Input.GetKeyDown(KeyCode.Escape)){
                 if(isGamePause){
@@ -76,7 +80,6 @@ public class MasterController : MonoBehaviour {
             currentSpeed = deltaPosition / deltaTime;
 
             uIManager.SetSpeed(currentSpeed);
-            // Debug.Log(currentSpeed.ToString("F2"));
             lastPosition = moveBody.transform.position;
             lastTimestamp = Time.time;
         }
@@ -135,4 +138,13 @@ public class MasterController : MonoBehaviour {
         collectedCoins += amount;
         
     }
+	public float CurrentDistance => longestDistance;
+	public float CurrentSpeed => currentSpeed;
+    [SerializeField] private float startWorldSpeed = 4f;
+    [SerializeField] private float maxWorldSpeed = 12f;
+    [SerializeField] private float worldSpeedAcceleration = 20f;
+
+    private float worldSpeed;
+    public float WorldSpeed => worldSpeed;
 }
+

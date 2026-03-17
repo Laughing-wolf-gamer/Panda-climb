@@ -23,6 +23,20 @@ public class SpawnManager : MonoBehaviour {
     private float currentEnemySpawnTime;
     public Action onMaxLogsDestroyed;
     public static SpawnManager current;
+	[SerializeField] private float distanceToMaxDifficulty = 300f;
+	[SerializeField] private AnimationCurve difficultyCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+
+	[Header("Enemy Difficulty")]
+	[SerializeField] private Vector2 enemySpawnIntervalRange = new Vector2(3.5f, 0.8f);
+	[SerializeField] private Vector2Int enemiesPerWaveRange = new Vector2Int(1, 4);
+	[SerializeField] private Vector2 foodChanceRange = new Vector2(0.65f, 0.2f);
+
+	private float GetDifficulty01()
+	{
+		float distance = MasterController.current.CurrentDistance;
+		float progress = Mathf.Clamp01(distance / distanceToMaxDifficulty);
+		return difficultyCurve.Evaluate(progress);
+	}
     private void Awake(){
         currentEnemySpawnTime = spawnTimes;
         current = this;
@@ -39,7 +53,7 @@ public class SpawnManager : MonoBehaviour {
 	public void Init(){
         int rand = Random.Range(0,poolName.Length);
         GameObject variations = poolingManager.SpawnFromPool(poolName[rand],intialSpawnPoint.position,intialSpawnPoint.rotation,variationsParent);
-        if(variations.TryGetComponent<LevelVariations>(out LevelVariations newVaritaionsRight)){
+        if(variations.TryGetComponent(out LevelVariations newVaritaionsRight)){
             currentVariations = newVaritaionsRight;
 
         }
@@ -54,28 +68,54 @@ public class SpawnManager : MonoBehaviour {
         int rand = Random.Range(0,poolName.Length);
         GameObject variations = poolingManager.SpawnFromPool(poolName[rand],currentVariations.GetNextObstacleSpawnPoint().position,currentVariations.GetNextObstacleSpawnPoint().rotation,variationsParent);
         
-        if(variations.TryGetComponent<LevelVariations>(out LevelVariations newVaritaionsRight)){
+        if(variations.TryGetComponent(out LevelVariations newVaritaionsRight)){
             currentVariations = newVaritaionsRight;
         }
         
     }
     private IEnumerator SpawnEnemy(){
-        yield return new WaitForSeconds(currentEnemySpawnTime);
-        currentEnemySpawnTime -= 0.5f;
-        currentEnemySpawnTime = Mathf.Clamp(currentEnemySpawnTime,1,spawnTimes);
-        int randomSpawnNumber = Random.Range(1,5);
-        for (int i = 0; i < randomSpawnNumber; i++){
-            int randomSpawnPoint = Random.Range(0,enemySpawnPoints.Length);
-            int randomEnemy = Random.Range(0,enemeyNames.Length);
-            int randomFood = Random.Range(0,foodNames.Length);
-            if(Random.Range(0,10) > 5){
-                poolingManager.SpawnFromPool(enemeyNames[randomEnemy],enemySpawnPoints[randomSpawnPoint].position,enemySpawnPoints[randomSpawnPoint].rotation);
-            }else{
-                poolingManager.SpawnFromPool(foodNames[randomFood],enemySpawnPoints[randomSpawnPoint].position,enemySpawnPoints[randomSpawnPoint].rotation);
+		while (!MasterController.current.isGamePlaying)
+		{
+			yield return null; // Wait until the game starts
+		}
+		Debug.Log("Enemy spawn coroutine started." + $" MasterController.current.isGamePlaying: {MasterController.current.isGamePlaying}");
+        while (MasterController.current.isGamePlaying)
+        {
+            float difficulty = GetDifficulty01();
+
+            float delay = Mathf.Lerp(enemySpawnIntervalRange.x, enemySpawnIntervalRange.y, difficulty);
+			Debug.Log($"Spawning enemies in {delay:F2} seconds (Difficulty: {difficulty:F2})");
+            yield return new WaitForSeconds(delay);
+			Debug.Log("Spawning enemies now!");
+            int spawnCount = Mathf.RoundToInt(Mathf.Lerp(enemiesPerWaveRange.x, enemiesPerWaveRange.y, difficulty));
+            float foodChance = Mathf.Lerp(foodChanceRange.x, foodChanceRange.y, difficulty);
+
+            for (int i = 0; i < spawnCount; i++)
+            {
+				Debug.Log($"Spawning enemy {i + 1}/{spawnCount} (Food Chance: {foodChance:F2})");
+                int spawnPointIndex = Random.Range(0, enemySpawnPoints.Length);
+                bool spawnFood = Random.value < foodChance;
+
+                if (spawnFood)
+                {
+                    int foodIndex = Random.Range(0, foodNames.Length);
+                    poolingManager.SpawnFromPool(
+                        foodNames[foodIndex],
+                        enemySpawnPoints[spawnPointIndex].position,
+                        enemySpawnPoints[spawnPointIndex].rotation);
+                }
+                else
+                {
+                    int enemyIndex = Random.Range(0, enemeyNames.Length);
+                    poolingManager.SpawnFromPool(
+                        enemeyNames[enemyIndex],
+                        enemySpawnPoints[spawnPointIndex].position,
+                        enemySpawnPoints[spawnPointIndex].rotation);
+                }
+
+                yield return new WaitForSeconds(Mathf.Lerp(1f, 0.25f, difficulty));
             }
-            yield return new WaitForSeconds(1f);
         }
-        yield return StartCoroutine(SpawnEnemy());
     }
     public void InvokeSpawnNewSection(){
         nextLogSpawnAmount++;
@@ -83,5 +123,6 @@ public class SpawnManager : MonoBehaviour {
             onMaxLogsDestroyed?.Invoke();
         }
     }
+    
     
 }

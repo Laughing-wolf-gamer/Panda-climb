@@ -1,0 +1,14 @@
+﻿<Solution>
+  <Project Path="Assembly-Baracuda-Monitoring.Example.csproj" />
+  <Project Path="Assembly-Baracuda-Monitoring.csproj" />
+  <Project Path="Tayx.Graphy.csproj" />
+  <Project Path="Assembly-Baracuda-Pooling.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Assembly-Baracuda-Threading.csproj" />
+  <Project Path="Assembly-Baracuda-Monitoring-Editor.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="Assembly-Baracuda-Reflection.csproj" />
+  <Project Path="Assembly-Baracuda-Threading-Editor.csproj" />
+  <Project Path="Tayx.Graphy.Editor.csproj" />
+  <Project Path="Assembly-Baracuda-Monitoring.IMGUI.csproj" />
+</Solution>

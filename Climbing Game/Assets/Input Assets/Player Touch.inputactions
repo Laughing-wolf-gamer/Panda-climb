@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "Player Touch",
     "maps": [
         {
@@ -31,15 +32,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "MousePos",
-                    "type": "PassThrough",
-                    "id": "64c1afd9-e424-4a05-8def-882116ae8fa2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -56,8 +48,30 @@
                 },
                 {
                     "name": "",
+                    "id": "f62f2edf-3197-4989-82c7-cc751c8a915f",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary Contact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "efa0856b-5d5b-4efd-9bea-c1a356069e66",
                     "path": "<Touchscreen>/primaryTouch/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "primary Postion",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d52e5ce-000a-43ff-93e6-09b541b44de3",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -84,17 +98,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "660914cb-c4a2-4e16-a2ea-d11e50edfaf4",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MousePos",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

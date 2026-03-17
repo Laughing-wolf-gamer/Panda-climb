@@ -142,7 +142,7 @@ Transform:
   m_GameObject: {fileID: 9104195663596187244}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 20.442, z: -0.09}
+  m_LocalPosition: {x: 0, y: 20.442, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -204,6 +204,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bamboo 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 168774524f4af934a95ac93ab3086e42, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5271007390253546819, guid: 2101a04a3ec9c1d42946483af095129c, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -243,7 +247,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -324,6 +328,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bamboo 1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 168774524f4af934a95ac93ab3086e42, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 608486086004073201, guid: 910b5c887503f9347a7d0a6f5c8672c1, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -363,7 +371,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -444,6 +452,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bamboo 1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 168774524f4af934a95ac93ab3086e42, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5281342907499630635, guid: 98d838618c4226d41a3da3fef738eaa5, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -483,7 +495,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
