@@ -6,6 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 public class SpawnManager : MonoBehaviour {
+	[Header("Log Spawning")]
+[SerializeField] private Vector2 logSpawnIntervalRange = new Vector2(1.5f, 0.6f); // max, min seconds
     [Header("Spawning Logs")]
     [SerializeField] private Transform variationsParent;
     [SerializeField] private CinemachineCamera followCam;
@@ -44,9 +46,27 @@ public class SpawnManager : MonoBehaviour {
     }
 
     private void Start(){
-        onMaxLogsDestroyed += SpawnOtherLogs;
-        Init();
-    }
+		onMaxLogsDestroyed += SpawnOtherLogs;
+		Init();
+		StartCoroutine(SpawnLogsContinuously());
+	}
+	private IEnumerator SpawnLogsContinuously()
+	{
+		// Wait for game to start
+		while (MasterController.current == null || !MasterController.current.isGamePlaying)
+			yield return null;
+
+		while (MasterController.current.isGamePlaying)
+		{
+			// Spawn another log section ahead
+			SpawnOtherLogs();
+
+			// Randomized interval so it doesn’t look too uniform
+			float t = Random.value;
+			float delay = Mathf.Lerp(logSpawnIntervalRange.x, logSpawnIntervalRange.y, t);
+			yield return new WaitForSeconds(delay);
+		}
+	}
 	private void OnDestroy() {
 		onMaxLogsDestroyed -= SpawnOtherLogs;
 	}
@@ -57,18 +77,34 @@ public class SpawnManager : MonoBehaviour {
             currentVariations = newVaritaionsRight;
 
         }
-
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 2; i++){
             SpawnOtherLogs();
         }
         StartCoroutine(SpawnEnemy());
     }
     public void SpawnOtherLogs(){
 		nextLogSpawnAmount = 0;
-        int rand = Random.Range(0,poolName.Length);
-        GameObject variations = poolingManager.SpawnFromPool(poolName[rand],currentVariations.GetNextObstacleSpawnPoint().position,currentVariations.GetNextObstacleSpawnPoint().rotation,variationsParent);
-        
-        if(variations.TryGetComponent(out LevelVariations newVaritaionsRight)){
+        if (currentVariations == null)
+        {
+            Debug.LogWarning("SpawnManager: currentVariations is null, cannot spawn new log section.");
+            return;
+        }
+
+        Transform spawnPoint = currentVariations.GetNextObstacleSpawnPoint();
+        if (spawnPoint == null)
+        {
+            Debug.LogWarning("SpawnManager: GetNextObstacleSpawnPoint returned null, cannot spawn new log section.");
+            return;
+        }
+
+        int rand = Random.Range(0, poolName.Length);
+        GameObject variations = poolingManager.SpawnFromPool(
+            poolName[rand],
+            spawnPoint.position,
+            spawnPoint.rotation,
+            variationsParent);
+
+        if (variations != null && variations.TryGetComponent(out LevelVariations newVaritaionsRight)){
             currentVariations = newVaritaionsRight;
         }
         
